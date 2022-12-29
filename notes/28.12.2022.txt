@@ -37,5 +37,10 @@ when satisfied with all of the changes fully rebase refs/heads/master
 
 git push origin HEAD:main
 
+when using just git push. I had a problem where my local origin HEAD area was not pointing to the correct place. 
+
+I need the proper method of using version control to commit and push my changes. 
+I know that the way intel does things is not the methodology used by the CS industry.
+be more comfortable with branches. 
 
 
