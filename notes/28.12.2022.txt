@@ -1,0 +1,41 @@
+I had a lot of trouble creating a git for this project. 
+
+The problem I had was trying to merge my newly created git in github and merging it with a locally created git.
+I tried pushing the locally created git into the empty github and it caused a lot of problems.
+I've hit this problem many times before. 
+
+If I ever hit that problem again this is what you do:
+
+1. log into github in the shell:
+gh auth login
+
+2. git init
+git init -b main
+
+3. git add
+git add .
+
+4. git commit
+git commit -m "<comment>"
+
+add remote origin from local git repository to the one made on github website
+git remote add origin git@github.com:dkim1235/reactTutorial.git
+
+set branch to be tracked because there was no tracking information with the branch.
+this allowed branch master to track origin/main
+git branch --set-upstream-to=origin/main master
+
+rebase your repo to reconsile two divergent branches.
+git config pull.rebase true
+
+git pull
+git pull and solve all merge conflicts
+
+git rebase --continue
+when satisfied with all of the changes fully rebase refs/heads/master
+
+
+git push origin HEAD:main
+
+
+
