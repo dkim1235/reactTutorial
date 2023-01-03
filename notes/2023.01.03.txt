@@ -12,4 +12,8 @@ git branch -m <new-name>
 publish branch:
 git push -u origin <local-branch>
 
+merging branches:
+git switch main
+git merge <branch>
+
 
