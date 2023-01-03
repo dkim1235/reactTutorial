@@ -16,4 +16,14 @@ merging branches:
 git switch main
 git merge <branch>
 
+delete branch:
+git branch -d <branch-name>
+
+delete remote branch:
+git push -d origin <branch-name>
+
+organizing branches:
+when creating branches create a "fake" directory strucure.
+ie. git branch notes/2023.01.03
+git branch features/login
 
