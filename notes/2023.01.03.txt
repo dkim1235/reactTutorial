@@ -1,0 +1,15 @@
+so I watched a video about git branch. What i realized was what I was missing was that knowledge. 
+I think i know what happened and why I hit my problems. 
+I will be using git branch frequently to get used to git branching. 
+It's not currently done with my current work place
+
+create new branch:
+git branch <new-branch-name>
+
+rename branch:
+git branch -m <new-name>
+
+publish branch:
+git push -u origin <local-branch>
+
+
