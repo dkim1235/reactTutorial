@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 
-
+//Object Square is a piece thats multiply instantiated. It renders html and uses props object to display value.
 class Square extends React.Component {
     render() {
         return (
@@ -13,6 +13,7 @@ class Square extends React.Component {
     }
 }
 
+//object Board renders object this.renderSquare which renders the object Square and passes props object into Square object
 class Board extends React.Component {
     renderSquare(i) {
         return <Square value={i}/>;
@@ -43,6 +44,8 @@ class Board extends React.Component {
         );
     }
 }
+
+//Game objct renders Board object. 
 
 class Game extends React.Component {
     render() {
