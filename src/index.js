@@ -3,11 +3,28 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 
 //Object Square is a piece thats multiply instantiated. It renders html and uses props object to display value.
+// always call super when defining a constructor of a subclass
+// all React component classes that have a constructor should start with a super(props) call.
+// read more documentation on javascript on objects and constructors, but will have to re-visit.
 class Square extends React.Component {
+    // this updates the object with state to have a new variable
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: null,
+        };
+    }
+    // how does "setState" function update var value?
+    // if a constructor named country with variable value was defined, could you change by saying "setCountry?" no. 
+    //setState is a react component. https://reactjs.org/docs/react-component.html#setstate
+    // so in this case it looks like the state object is always available. You are only 
     render() {
         return (
-            <button className="square">
-                {this.props.value}
+            <button
+                className="square"
+                onClick={() => this.setState({ value: 'X' })}
+            >
+                {this.state.value }
             </button>
         );
     }
@@ -16,7 +33,7 @@ class Square extends React.Component {
 //object Board renders object this.renderSquare which renders the object Square and passes props object into Square object
 class Board extends React.Component {
     renderSquare(i) {
-        return <Square value={i}/>;
+        return <Square value={i} />;
     }
 
     render() {
