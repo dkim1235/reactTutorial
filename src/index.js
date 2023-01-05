@@ -7,17 +7,17 @@ import './index.css';
 // all React component classes that have a constructor should start with a super(props) call.
 // read more documentation on javascript on objects and constructors, but will have to re-visit.
 // class Square extends React.Component {
-    // this updates the object with state to have a new variable
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         value: null,
-    //     };
-    // }
-    // how does "setState" function update var value?
-    // if a constructor named country with variable value was defined, could you change by saying "setCountry?" no. 
-    //setState is a react component. https://reactjs.org/docs/react-component.html#setstate
-    // so in this case it looks like the state object is always available. You are only 
+// this updates the object with state to have a new variable
+// constructor(props) {
+//     super(props);
+//     this.state = {
+//         value: null,
+//     };
+// }
+// how does "setState" function update var value?
+// if a constructor named country with variable value was defined, could you change by saying "setCountry?" no. 
+//setState is a react component. https://reactjs.org/docs/react-component.html#setstate
+// so in this case it looks like the state object is always available. You are only 
 
 //     render() {
 //         return (
@@ -49,8 +49,11 @@ class Board extends React.Component {
             xIsNext: true,
         };
     }
-    handleClick(i){
+    handleClick(i) {
         const squares = this.state.squares.slice();
+        if(calculateWinner(squares) || squares[i]) {
+            return;
+        }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
         this.setState({
             squares: squares,
@@ -70,7 +73,13 @@ class Board extends React.Component {
     }
 
     render() {
-        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        const winner = calculateWinner(this.state.squares);
+        let status;
+        if (winner) {
+            status = 'Winner: ' + winner;
+        } else {
+            status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+        }
 
         return (
             <div>
@@ -113,20 +122,40 @@ class Game extends React.Component {
     }
 }
 
-class ShoppingList extends React.Component {
-    render() {
-        return (
-            <div className="shopping-list">
-                <h1>Shopping List for {this.props.name}</h1>
-                <ul>
-                    <li>Instagram</li>
-                    <li>WhatsApp</li>
-                    <li>Oculus</li>
-                </ul>
-            </div>
-        );
+function calculateWinner(squares) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6],
+    ];
+    for (let i = 0; i < lines.length; i++) {
+        const [a, b, c] = lines[i];
+        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+            return squares[a];
+        }
     }
+    return null;
 }
+
+// class ShoppingList extends React.Component {
+//     render() {
+//         return (
+//             <div className="shopping-list">
+//                 <h1>Shopping List for {this.props.name}</h1>
+//                 <ul>
+//                     <li>Instagram</li>
+//                     <li>WhatsApp</li>
+//                     <li>Oculus</li>
+//                 </ul>
+//             </div>
+//         );
+//     }
+// }
 // return React.createElement('div', {className: 'shopping-list'});
 
 // ========================================
