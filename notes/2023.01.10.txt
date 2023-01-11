@@ -1,0 +1,4 @@
+what I've realized from this exercize is to continue lifting states up to a higher level of hierarchy to make the most effective use of re-usability and simplicity.
+from storing data to the squares to the board to the game itself. 
+When first creating your template it's okay to initially start with data at the base-most state, but it's important to consider scalability and lifting states up continuously.
+
