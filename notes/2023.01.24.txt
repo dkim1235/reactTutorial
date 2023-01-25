@@ -1,0 +1,17 @@
+I finished the react tutorial. 
+I feel like I have a good grasp of what react can do. 
+It's amazing compared to the express routes, and html/css I had to manage with the traditional bootcamp that I had to follow.
+It allows FE engineers to focus on the FE instead of managing the routes.
+It gives the ability to leverage instantiation.
+It removes the need for EJS. 
+
+So far overall it gives me a look into what this technology has provided.
+ultimately all react is a wrapper. 
+A really well documented and valuable wrapper. 
+It helps me understand the value prospect of tradeoffs in lower level knowledge base and wrappers that help an individual contributer to focus on the task at hand.
+
+Some things to ask when writing a wrapper:
+1. how does this wrapper create value to the user
+2. does the user need to know what is going underneath the hood of the wrapper?
+3. how often does the user need to dig underneath the hood of the wrapper?
+4. think more about workflows and ease of use.
