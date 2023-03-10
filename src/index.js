@@ -112,6 +112,8 @@ class Game extends React.Component {
         this.state = {
             history: [{
                 squares: Array(9).fill(null),
+                row: null,
+                col: null,
             }],
             stepNumber: 0,
             xIsNext: true,
@@ -121,13 +123,18 @@ class Game extends React.Component {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
         const current = history[history.length-1];
         const squares = current.squares.slice();
+        const row = Math.floor(i/3);
+        const col = i%3;
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
+        // this is concatenating. history is an array of hashes. the hash "squares" is being set as the array and is being added on top of what already exists in history 
         this.setState({
             history: history.concat([{
                 squares: squares,
+                row: row,
+                col: col,
             }]),
             stepNumber: history.length,
             xIsNext: !this.state.xIsNext,
@@ -145,8 +152,11 @@ class Game extends React.Component {
         const winner = calculateWinner(current.squares);
 
         const moves = history.map((step, move) => {
+            const row = step.row;
+            const col = step.col;
             const desc = move ? 
-                'Go to move #' + move :
+                // 'Go to move #' + move :
+                'Go to move #' + move + ' (' + col + ',' + row + ')':
                 'Go to game start';
             return (
                 <li key={move}>
