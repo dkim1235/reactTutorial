@@ -121,10 +121,12 @@ class Game extends React.Component {
     }
     handleClick(i) {
         const history = this.state.history.slice(0, this.state.stepNumber + 1);
-        const current = history[history.length-1];
+        const current = history[history.length - 1];
         const squares = current.squares.slice();
-        const row = Math.floor(i/3);
-        const col = i%3;
+
+        const row = Math.floor(i / 3);
+        const col = i % 3;
+
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
@@ -154,15 +156,25 @@ class Game extends React.Component {
         const moves = history.map((step, move) => {
             const row = step.row;
             const col = step.col;
-            const desc = move ? 
+            const desc = move ?
                 // 'Go to move #' + move :
-                'Go to move #' + move + ' (' + col + ',' + row + ')':
+                'Go to move #' + move + ' (' + col + ',' + row + ')' :
                 'Go to game start';
-            return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            );
+
+            console.log(this.state.stepNumber)
+            if (move == this.state.stepNumber) {
+                return (
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}><b>{desc}</b></button>
+                    </li>
+                );
+            } else {
+                return (
+                    <li key={move}>
+                        <button onClick={() => this.jumpTo(move)}>{desc}</button>
+                    </li>
+                );
+            }
         });
 
         let status;
