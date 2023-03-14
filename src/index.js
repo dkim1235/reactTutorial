@@ -34,7 +34,7 @@ import './index.css';
 // }
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button key={props.key} className="square" onClick={props.onClick}>
             {props.value}
         </button>
     )
@@ -67,10 +67,23 @@ class Board extends React.Component {
                 //we need a method where square updates the board's state.
                 //pass down a function from the board to the square. 
                 //Then have square call that function when square is clicked. 
+                key={i}
                 onClick={() => this.props.onClick(i)}
             />
         );
     }
+    renderSquares() {
+        let rows = [];
+        for (let i = 0; i < 3; i++) {
+            let squares = [];
+            for (let j = 0; j < 3; j++) {
+                squares.push(this.renderSquare(3*i+j));
+            }
+            rows.push(<div className="board-row" key={i}>{squares}</div>);
+        }
+        return rows;
+    }
+
 
     render() {
         // const winner = calculateWinner(this.state.squares);
@@ -81,26 +94,37 @@ class Board extends React.Component {
         //     status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         // }
         // <div className="status">{status}</div>
-
+        //can't really use map...
+        // const squares = this.props.squares.map((square, num) => {
+        //     return (
+        //         <div>
+        //         {this.renderSquare(num)}</div>
+        //     )
+        // });
+        const fullBoard = 'fullBoard'
         return (
-            <div>
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
-            </div>
+            <div key={0} >{this.renderSquares()}</div>
         );
+
+        // return (
+        //     <div>
+        //         <div className="board-row">
+        //             {this.renderSquare(0)}
+        //             {this.renderSquare(1)}
+        //             {this.renderSquare(2)}
+        //         </div>
+        //         <div className="board-row">
+        //             {this.renderSquare(3)}
+        //             {this.renderSquare(4)}
+        //             {this.renderSquare(5)}
+        //         </div>
+        //         <div className="board-row">
+        //             {this.renderSquare(6)}
+        //             {this.renderSquare(7)}
+        //             {this.renderSquare(8)}
+        //         </div>
+        //     </div>
+        // );
     }
 }
 
@@ -169,7 +193,7 @@ class Game extends React.Component {
                         {(this.state.stepNumber == move) ? <b>{desc}</b> : desc}
                     </button>
                 </li>
-            );
+            );// replaced 13 lines with 7 lines by embedding an expression in JSX for conditional rendering
             // if (move == this.state.stepNumber) {
             //     return (
             //         <li key={move}>
