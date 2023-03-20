@@ -39,6 +39,14 @@ function Square(props) {
         </button>
     )
 }
+function WinnerSquare(props) {
+    return (
+        <button className="squareHighlight" onClick={props.onClick}>
+            {props.value}
+        </button>
+    )
+}
+
 
 //object Board renders object this.renderSquare which renders the object Square and passes props object into Square object
 class Board extends React.Component {
@@ -72,12 +80,33 @@ class Board extends React.Component {
             />
         );
     }
+    renderHighlightSquare(i) {
+        return (
+            <WinnerSquare
+                value={this.props.squares[i]}
+                //we need a method where square updates the board's state.
+                //pass down a function from the board to the square. 
+                //Then have square call that function when square is clicked. 
+                key={i}
+                onClick={() => this.props.onClick(i)}
+            />
+        );
+    }
+
     renderSquares() {
         let rows = [];
         for (let i = 0; i < 3; i++) {
             let squares = [];
             for (let j = 0; j < 3; j++) {
-                squares.push(this.renderSquare(3*i+j));
+                if (this.props.highlightSquares) {
+                    if (this.props.highlightSquares.includes(3*i+j)) {
+                        squares.push(this.renderHighlightSquare(3 * i + j));
+                    } else {
+                        squares.push(this.renderSquare(3 * i + j));
+                    }
+                } else {
+                    squares.push(this.renderSquare(3 * i + j));
+                }
             }
             rows.push(<div className="board-row" key={i}>{squares}</div>);
         }
@@ -101,7 +130,6 @@ class Board extends React.Component {
         //         {this.renderSquare(num)}</div>
         //     )
         // });
-        const fullBoard = 'fullBoard'
         return (
             <div key={0} >{this.renderSquares()}</div>
         );
@@ -151,7 +179,7 @@ class Game extends React.Component {
 
         const row = Math.floor(i / 3);
         const col = i % 3;
-
+        // stop handle click if square was already clicked or if the winner was already calculated. 
         if (calculateWinner(squares) || squares[i]) {
             return;
         }
@@ -182,7 +210,8 @@ class Game extends React.Component {
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
-        const winner = calculateWinner(current.squares);
+        const winnerSquares = calculateWinner(current.squares);
+        const winner = winnerSquares ? current.squares[winnerSquares[0]] : winnerSquares;
 
         const moves = history.map((step, move) => {
             const row = step.row;
@@ -194,7 +223,7 @@ class Game extends React.Component {
             let desc = ""
             if (move == 0) {
                 desc = 'Go to game start';
-            } else if ( move == this.state.stepNumber) {
+            } else if (move == this.state.stepNumber) {
                 desc = 'You are at move #' + this.state.stepNumber + ' (' + col + ',' + row + ')';
             } else {
                 desc = 'Go to move #' + move + ' (' + col + ',' + row + ')';
@@ -235,6 +264,7 @@ class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         squares={current.squares}
+                        highlightSquares={winnerSquares}
                         onClick={(i) => this.handleClick(i)}
                     />
                 </div>
@@ -264,7 +294,7 @@ function calculateWinner(squares) {
     for (let i = 0; i < lines.length; i++) {
         const [a, b, c] = lines[i];
         if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            return squares[a];
+            return [a, b, c];
         }
     }
     return null;
