@@ -141,6 +141,7 @@ class Game extends React.Component {
             }],
             stepNumber: 0,
             xIsNext: true,
+            reverseList: false,
         };
     }
     handleClick(i) {
@@ -172,6 +173,12 @@ class Game extends React.Component {
             xIsNext: (step % 2) === 0,
         });
     }
+    reverseList() {
+        const reverseListState = !this.state.reverseList
+        this.setState({
+            reverseList: reverseListState,
+        });
+    }
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
@@ -180,10 +187,18 @@ class Game extends React.Component {
         const moves = history.map((step, move) => {
             const row = step.row;
             const col = step.col;
-            const desc = move ?
-                // 'Go to move #' + move :
-                'Go to move #' + move + ' (' + col + ',' + row + ')' :
-                'Go to game start';
+            // const desc = move ?
+            //     // 'Go to move #' + move :
+            //     'Go to move #' + move + ' (' + col + ',' + row + ')' :
+            //     'Go to game start';
+            let desc = ""
+            if (move == 0) {
+                desc = 'Go to game start';
+            } else if ( move == this.state.stepNumber) {
+                desc = 'You are at move #' + this.state.stepNumber + ' (' + col + ',' + row + ')';
+            } else {
+                desc = 'Go to move #' + move + ' (' + col + ',' + row + ')';
+            }
 
             // desc = (move==this.state.stepNumber) ? '<b>' + desc + '<\b>' : desc;
 
@@ -225,7 +240,10 @@ class Game extends React.Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <ol>{moves}</ol>
+                    <ol>{this.state.reverseList ? moves.reverse() : moves}</ol>
+                </div>
+                <div>
+                    <button onClick={() => this.reverseList()}>Toggle</button>
                 </div>
             </div>
         );
