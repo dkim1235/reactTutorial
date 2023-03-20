@@ -34,15 +34,9 @@ import './index.css';
 // }
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className={"square " + (props.isWinning ? "square-winning" : null)} onClick={props.onClick}>
             {props.value}
-        </button>
-    )
-}
-function WinnerSquare(props) {
-    return (
-        <button className="squareHighlight" onClick={props.onClick}>
-            {props.value}
+            {props.isWinning}
         </button>
     )
 }
@@ -74,20 +68,10 @@ class Board extends React.Component {
                 value={this.props.squares[i]}
                 //we need a method where square updates the board's state.
                 //pass down a function from the board to the square. 
-                //Then have square call that function when square is clicked. 
+                //Then have square call that function when square is clicked.
+
                 key={i}
-                onClick={() => this.props.onClick(i)}
-            />
-        );
-    }
-    renderHighlightSquare(i) {
-        return (
-            <WinnerSquare
-                value={this.props.squares[i]}
-                //we need a method where square updates the board's state.
-                //pass down a function from the board to the square. 
-                //Then have square call that function when square is clicked. 
-                key={i}
+                isWinning={this.props.winnerSquares.includes(i)}
                 onClick={() => this.props.onClick(i)}
             />
         );
@@ -98,15 +82,7 @@ class Board extends React.Component {
         for (let i = 0; i < 3; i++) {
             let squares = [];
             for (let j = 0; j < 3; j++) {
-                if (this.props.highlightSquares) {
-                    if (this.props.highlightSquares.includes(3*i+j)) {
-                        squares.push(this.renderHighlightSquare(3 * i + j));
-                    } else {
-                        squares.push(this.renderSquare(3 * i + j));
-                    }
-                } else {
-                    squares.push(this.renderSquare(3 * i + j));
-                }
+                squares.push(this.renderSquare(3 * i + j));
             }
             rows.push(<div className="board-row" key={i}>{squares}</div>);
         }
@@ -180,7 +156,7 @@ class Game extends React.Component {
         const row = Math.floor(i / 3);
         const col = i % 3;
         // stop handle click if square was already clicked or if the winner was already calculated. 
-        if (calculateWinner(squares) || squares[i]) {
+        if (calculateWinner(squares).length > 0 || squares[i]) {
             return;
         }
         squares[i] = this.state.xIsNext ? 'X' : 'O';
@@ -211,7 +187,7 @@ class Game extends React.Component {
         const history = this.state.history;
         const current = history[this.state.stepNumber];
         const winnerSquares = calculateWinner(current.squares);
-        const winner = winnerSquares ? current.squares[winnerSquares[0]] : winnerSquares;
+        const winner = winnerSquares.length > 0 ? current.squares[winnerSquares[0]] : null;
 
         const moves = history.map((step, move) => {
             const row = step.row;
@@ -264,7 +240,7 @@ class Game extends React.Component {
                 <div className="game-board">
                     <Board
                         squares={current.squares}
-                        highlightSquares={winnerSquares}
+                        winnerSquares={winnerSquares}
                         onClick={(i) => this.handleClick(i)}
                     />
                 </div>
@@ -297,7 +273,7 @@ function calculateWinner(squares) {
             return [a, b, c];
         }
     }
-    return null;
+    return [];
 }
 
 // class ShoppingList extends React.Component {
