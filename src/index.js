@@ -188,6 +188,7 @@ class Game extends React.Component {
         const current = history[this.state.stepNumber];
         const winnerSquares = calculateWinner(current.squares);
         const winner = winnerSquares.length > 0 ? current.squares[winnerSquares[0]] : null;
+        const draw = calculateDraw(current.squares);
 
         const moves = history.map((step, move) => {
             const row = step.row;
@@ -232,6 +233,8 @@ class Game extends React.Component {
         let status;
         if (winner) {
             status = 'Winner: ' + winner;
+        } else if(draw){
+            status = 'Draw';
         } else {
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
         }
@@ -274,6 +277,14 @@ function calculateWinner(squares) {
         }
     }
     return [];
+}
+function calculateDraw(squares) {
+    for (let i=0; i<squares.length; i++){
+        if(squares[i] == null) {
+            return false;
+        }
+    }
+    return true;
 }
 
 // class ShoppingList extends React.Component {
