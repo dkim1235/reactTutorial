@@ -198,9 +198,9 @@ class Game extends React.Component {
             //     'Go to move #' + move + ' (' + col + ',' + row + ')' :
             //     'Go to game start';
             let desc = ""
-            if (move == 0) {
+            if (move === 0) {
                 desc = 'Go to game start';
-            } else if (move == this.state.stepNumber) {
+            } else if (move === this.state.stepNumber) {
                 desc = 'You are at move #' + this.state.stepNumber + ' (' + col + ',' + row + ')';
             } else {
                 desc = 'Go to move #' + move + ' (' + col + ',' + row + ')';
@@ -211,7 +211,7 @@ class Game extends React.Component {
             return (
                 <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>
-                        {(this.state.stepNumber == move) ? <b>{desc}</b> : desc}
+                        {(this.state.stepNumber === move) ? <b>{desc}</b> : desc}
                     </button>
                 </li>
             );// replaced 13 lines with 7 lines by embedding an expression in JSX for conditional rendering
@@ -280,7 +280,7 @@ function calculateWinner(squares) {
 }
 function calculateDraw(squares) {
     for (let i=0; i<squares.length; i++){
-        if(squares[i] == null) {
+        if(squares[i] === null) {
             return false;
         }
     }
